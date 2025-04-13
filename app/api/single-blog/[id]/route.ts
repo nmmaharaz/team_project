@@ -3,14 +3,14 @@ import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 import { NextRequest } from 'next/server';
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }) {
     const blogCollection = dbConnect(collectionNameObj.blogCollection);
     const query = { _id: new ObjectId(params.id) };
     const singleBlog = await (await blogCollection).findOne(query);
     return NextResponse.json(singleBlog);
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }) {
     const blogCollection = dbConnect(collectionNameObj.blogCollection);
     const postId = new ObjectId(params.id);
     const body = await request.json();
