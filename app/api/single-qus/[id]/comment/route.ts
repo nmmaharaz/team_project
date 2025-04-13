@@ -49,7 +49,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/authOptions"
 // import { authOptions } from "@/lib/auth" // adjust path if needed
 
-export const GET = async ( { params }: { params: { id: string } }) => {
+export const GET = async ( { params }) => {
     const p = await params
     const questionCollection = dbConnect(collectionNameObj.questionCollection)
     const query = { _id: new ObjectId(p.id) }
@@ -57,7 +57,7 @@ export const GET = async ( { params }: { params: { id: string } }) => {
     return NextResponse.json(singleQus)
 }
 
-export const PATCH = async (req: Request, { params }: { params: { id: string } }) => {
+export const PATCH = async (req: Request, { params }) => {
     const session = await getServerSession(authOptions)
 
     if (!session || !session.user || !session.user.email) {
