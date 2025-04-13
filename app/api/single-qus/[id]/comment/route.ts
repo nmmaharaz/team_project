@@ -41,32 +41,29 @@
 //         updateRes,
 //     });
 // }
-
 import dbConnect, { collectionNameObj } from "@/lib/dbConnect"
 import { ObjectId } from "mongodb"
 import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/authOptions"
-// import { authOptions } from "@/lib/auth" // adjust path if needed
+import { NextRequest } from 'next/server' // Import NextRequest
 
-export const GET = async ( { params }) => {
-    const p = await params
+export const GET = async (req: NextRequest | Request, { params }: { params: { id: string } }) => {
     const questionCollection = dbConnect(collectionNameObj.questionCollection)
-    const query = { _id: new ObjectId(p.id) }
+    const query = { _id: new ObjectId(params.id) }
     const singleQus = await (await questionCollection).findOne(query)
     return NextResponse.json(singleQus)
 }
 
-export const PATCH = async (req: Request, { params }) => {
+export const PATCH = async (req: Request, { params }: { params: { id: string } }) => {
     const session = await getServerSession(authOptions)
 
     if (!session || !session.user || !session.user.email) {
         return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
 
-    const p = await params
     const questionCollection = dbConnect(collectionNameObj.questionCollection)
-    const postId = new ObjectId(p.id)
+    const postId = new ObjectId(params.id)
     const body = await req.json()
     const { userName, userEmail, userImage, comment } = body;
 
