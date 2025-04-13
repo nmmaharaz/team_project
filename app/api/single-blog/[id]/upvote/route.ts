@@ -4,7 +4,7 @@ import { ObjectId } from "mongodb"
 import { NextResponse } from "next/server"
 
 
-export const GET = async (req: Request, { params }: { params: { id: string } }) => {
+export const GET = async (req: Request, { params }) => {
     const p = await params
     const blogCollection = dbConnect(collectionNameObj.blogCollection)
     const query = { _id: new ObjectId(p.id) }
@@ -13,7 +13,7 @@ export const GET = async (req: Request, { params }: { params: { id: string } }) 
 }
 
 
-export const PATCH = async (req: Request, { params }: { params: { id: string } }) => {
+export const PATCH = async (req: Request, { params }) => {
     const p = await params
     const blogCollection = dbConnect(collectionNameObj.blogCollection)
     const postId = new ObjectId(p.id)
